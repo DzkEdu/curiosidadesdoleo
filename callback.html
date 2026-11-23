@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Autorização · Curiosidades do Léo</title><link rel="stylesheet" href="style.css"></head><body>
+<header><h1>Curiosidades do Léo</h1><p>Retorno da autorização</p></header>
+<main>
+<div class="card" id="box"><p>Lendo o código…</p></div>
+<p class="muted">Esta página só mostra o parâmetro <code>code</code> que veio na URL. Ela não envia nada a nenhum servidor.</p>
+</main>
+<script>
+  const q = new URLSearchParams(location.search), box = document.getElementById('box');
+  const code = q.get('code'), err = q.get('error_description') || q.get('error');
+  box.textContent = '';
+  const p = document.createElement('p');
+  if (code) {
+    p.textContent = 'Código de autorização (copie e cole no programa, não no chat):';
+    const c = document.createElement('div'); c.className = 'code'; c.textContent = code; box.append(p, c);
+  } else {
+    p.textContent = err ? 'A autorização falhou: ' + err : 'Nenhum código na URL.'; box.append(p);
+  }
+</script>
+</body></html>
