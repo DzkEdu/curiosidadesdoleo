@@ -4,11 +4,15 @@
 <header><h1>Curiosidades do Léo</h1><p>Retorno da autorização</p></header>
 <main>
 <div class="card" id="box"><p>Lendo o código…</p></div>
-<p class="muted">Esta página só mostra o parâmetro <code>code</code> que veio na URL. Ela não envia nada a nenhum servidor.</p>
+<p class="muted">Esta página só mostra o parâmetro <code>code</code> que veio na URL ou, quando a autorização foi pedida pelo programa do próprio computador, repassa o código para o endereço local 127.0.0.1. Ela não envia nada a nenhum servidor.</p>
 </main>
 <script>
   const q = new URLSearchParams(location.search), box = document.getElementById('box');
   const code = q.get('code'), err = q.get('error_description') || q.get('error');
+  // Autorização pedida pelo robô local: repassa o código para 127.0.0.1 (o próprio computador).
+  if (code && (q.get('state') || '').startsWith('loc')) {
+    location.replace('http://127.0.0.1:8766/callback' + location.search);
+  }
   box.textContent = '';
   const p = document.createElement('p');
   if (code) {
